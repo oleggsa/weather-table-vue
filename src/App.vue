@@ -14,4 +14,5 @@ import CityInput from "@/components/CityInput.vue";
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+
 </style>

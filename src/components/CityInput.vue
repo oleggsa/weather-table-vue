@@ -2,10 +2,19 @@
   <div class="field">
     <input type="text" v-debounce:300ms="showList" v-model="this.inputValue" >
     <Button />
-    <select v-model="chosenCity" @click="showLog">
-      <option v-for="item in listOfCities" :key='item' v-bind:value="item">{{`${item.name}, ${item.country}, ${item.admin1}`}}</option>
-    </select>
+
+<!--    <v-autocomplete-->
+<!--        model-value="chosenCity"-->
+<!--        @update:search="saveCity"-->
+<!--        v-if="listOfCities"-->
+<!--        label="Autocomplete"-->
+<!--        :items='listOfCities.map(item => item.name)'-->
+<!--        variant="solo"-->
+<!--    ></v-autocomplete>-->
   </div>
+  <select v-model="chosenCity" @change="saveCity">
+    <option v-for="item in listOfCities" :key='item' v-bind:value="item">{{`${item.name}, ${item.country}, ${item.admin1}`}}</option>
+  </select>
 </template>
 
 <script>
@@ -20,20 +29,24 @@ export default {
   data(){
     return {
       inputValue: '',
-      chosenCity: ''
+      chosenCity: null
     }
   },
   components: {Button},
-  mounted() {
-    this.$store.dispatch('loadCities', 10)
-  },
   methods: {
     showList(){
       this.$store.dispatch('loadCities', this.inputValue)
       console.log(this.inputValue)
     },
-    showLog(){
-      console.log(this.chosenCity)
+    saveCity(){
+      if(this.$store.getters.getChosenCities.find(item => item.id === this.chosenCity.id)) return;
+      console.log('CITY IS ', this.chosenCity)
+      this.$store.commit('SAVE_CHOSEN_CITIES', this.chosenCity)
+      this.$store.dispatch('getCurrentCityWeather', {
+        latitude: this.chosenCity.latitude,
+        longitude: this.chosenCity.longitude,
+        id: this.chosenCity.id
+      })
     }
   },
   computed: {
@@ -66,5 +79,6 @@ export default {
 }
 select {
   max-width: 300px;
+  border: 2px black solid;
 }
 </style>
