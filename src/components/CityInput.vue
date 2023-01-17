@@ -1,20 +1,20 @@
 <template>
   <div class="field">
-    <input type="text" v-debounce:300ms="showList" v-model="this.inputValue" >
-    <Button />
-
+    <input type="text" v-debounce:300ms="showList" v-model="this.inputValue" placeholder="type the city name">
+    <select v-model="chosenCity" @change="saveCity" id="insert" required>
+      <option value="" disabled selected>Select your city</option>
+      <option v-for="item in listOfCities" :key='item' v-bind:value="item">{{`${item.name}, ${item.country}, ${item.admin1}`}}</option>
+    </select>
+<!--    <Button />-->
 <!--    <v-autocomplete-->
-<!--        model-value="chosenCity"-->
-<!--        @update:search="saveCity"-->
-<!--        v-if="listOfCities"-->
-<!--        label="Autocomplete"-->
-<!--        :items='listOfCities.map(item => item.name)'-->
+<!--        label="Enter the city name"-->
+<!--        v-model="inputValue"-->
+<!--        :items="this.listOfCities"-->
 <!--        variant="solo"-->
+<!--        @update:search="log(e)"-->
+<!--        no-data-text="No cities found"-->
 <!--    ></v-autocomplete>-->
   </div>
-  <select v-model="chosenCity" @change="saveCity">
-    <option v-for="item in listOfCities" :key='item' v-bind:value="item">{{`${item.name}, ${item.country}, ${item.admin1}`}}</option>
-  </select>
 </template>
 
 <script>
@@ -38,7 +38,11 @@ export default {
       this.$store.dispatch('loadCities', this.inputValue)
       console.log(this.inputValue)
     },
+    log(e){
+      console.log('id is ', e)
+    },
     saveCity(){
+      console.log('works')
       if(this.$store.getters.getChosenCities.find(item => item.id === this.chosenCity.id)) return;
       console.log('CITY IS ', this.chosenCity)
       this.$store.commit('SAVE_CHOSEN_CITIES', this.chosenCity)
@@ -64,7 +68,7 @@ export default {
   justify-content: center;
   align-items: center;
   input {
-    width: 400px;
+    width: 250px;
     height: 50px;
     padding: 8px 16px;
     border: 2px solid #a4beff;
@@ -78,7 +82,17 @@ export default {
   }
 }
 select {
-  width: 300px;
-  border: 2px black solid;
+  width: 450px;
+  height: 50px;
+  padding: 8px 16px;
+  border: 2px solid #a4beff;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: none;
+  font-size: 20px;
+  font-weight: 700;
+  &:focus {
+    outline: none;
+  }
 }
 </style>

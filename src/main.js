@@ -5,14 +5,17 @@ import {store} from './store';
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import * as components from 'vuetify/components'
+import * as componentsVuetify from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import './assets/style.css'
+import {VAutocomplete} from "vuetify/components";
 
 const vuetify = createVuetify({
     components: {
-        VDataTable
+        VDataTable,
+        VAutocomplete
     },
+    componentsVuetify,
     directives,
 })
 

@@ -1,14 +1,14 @@
 <template>
-  <v-row justify="center">
-    <v-date-picker v-model="picker"></v-date-picker>
-  </v-row>
   <v-data-table
+      v-if="cities.length"
       v-model:items-per-page="itemsPerPage"
       :headers="headers"
       :items="cities"
       item-value="name"
       class="elevation-1"
-  ></v-data-table>
+      @click:row="log()"
+  >
+  </v-data-table>
 </template>
 
 <script>
@@ -19,18 +19,26 @@ export default {
       itemsPerPage: 10,
       headers: [
         { title: 'City', align: 'start', key: 'name' },
+        { title: 'Country', align: 'start', key: 'country' },
+        { title: 'Admin', align: 'start', key: 'admin1' },
         { title: 'MinTemp', align: 'end', key: 'weather.daily.temperature_2m_min[0]' },
         { title: 'MaxTemp', align: 'end', key: 'weather.daily.temperature_2m_max[0]' },
+        { title: '', align: 'end', key: '' },
       ],
       cities: this.$store.getters.getChosenCities,
-      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+
     }
   },
+  methods: {
+    log(e){
+      console.log('some data', e)
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-body {
-  background: red;
+.v-table {
+  margin-top:100px;
 }
 </style>

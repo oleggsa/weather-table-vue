@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 export const store = createStore({
     state: {
         chosenCities: [],
-        foundCities: ''
+        foundCities: []
     },
     getters: {
         getCities: function (state) {
@@ -23,11 +23,7 @@ export const store = createStore({
         UPDATE_CHOSEN_CITIES(state, payload){
             state.chosenCities.find(item => {
                 if (item.id === payload.id){
-                    console.log('item', item)
-                    console.log('payload', payload)
                     item.weather = payload.weather
-                    console.log('item after', item)
-                    console.log('push success')
                 }
             })
         }
