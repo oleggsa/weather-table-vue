@@ -25,3 +25,7 @@
     background: white;
     border: 1px black solid;
 }
+
+.el-table {
+    margin-top: 100px;
+}

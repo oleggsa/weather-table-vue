@@ -1,14 +1,4 @@
 <template>
-<!--  <v-data-table-->
-<!--      v-if="cities.length"-->
-<!--      v-model:items-per-page="itemsPerPage"-->
-<!--      :headers="headers"-->
-<!--      :items="cities"-->
-<!--      item-value="name"-->
-<!--      class="elevation-1"-->
-<!--      @click:row="log()"-->
-<!--  >-->
-<!--  </v-data-table>-->
   <el-table
       :data="this.$store.getters.getChosenCities"
       :default-sort="{ prop: 'date', order: 'descending' }"
@@ -49,11 +39,7 @@ export default {
     }
   },
   methods: {
-    log(e){
-      console.log('some data', e)
-    },
     handleDelete(elem){
-      console.log('result is ', this.$store.getters.getChosenCities.filter(item => item.id !== elem.id))
       this.$store.commit('DELETE_ITEM_FROM_CHOSEN_CITIES', this.$store.getters.getChosenCities.filter(item => item.id !== elem.id))
 
     }

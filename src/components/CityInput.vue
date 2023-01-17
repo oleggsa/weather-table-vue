@@ -8,8 +8,6 @@
         @complete="showList"
         @item-select="saveCity"
         placeholder="Hint: type name of city"
-        emptySearchMessage=""
-        searchMessage=""
         :delay=500
         :minLength=3
     />
@@ -17,12 +15,11 @@
 </template>
 
 <script>
-import Button from "@/components/Button.vue";
 import AutoComplete from 'primevue/autocomplete';
 
 export default {
   name: "CityInput",
-  components: {Button, AutoComplete},
+  components: {AutoComplete},
   data(){
     return {
       inputValue: '',
@@ -32,13 +29,8 @@ export default {
   methods: {
     showList(){
       this.$store.dispatch('loadCities', this.inputValue)
-      console.log(this.inputValue)
-    },
-    log(e){
-      console.log('IV is ', e)
     },
     saveCity(e){
-      console.log('works and e is ', e.value)
       if(this.$store.getters.getChosenCities.find(item => item.id === e.value.id)) return;
       this.$store.commit('SAVE_CHOSEN_CITIES', e.value)
       this.$store.dispatch('getCurrentCityWeather', {
