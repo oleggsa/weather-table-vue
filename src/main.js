@@ -4,12 +4,15 @@ import {store} from './store';
 
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
+import { VDataTable } from 'vuetify/labs/VDataTable'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import './assets/style.css'
 
 const vuetify = createVuetify({
-    components,
+    components: {
+        VDataTable
+    },
     directives,
 })
 

@@ -78,7 +78,7 @@ export default {
   }
 }
 select {
-  max-width: 300px;
+  width: 300px;
   border: 2px black solid;
 }
 </style>
