@@ -20,6 +20,11 @@ export const store = createStore({
         SAVE_CHOSEN_CITIES(state, payload){
             state.chosenCities.push(payload)
         },
+        DELETE_ITEM_FROM_CHOSEN_CITIES(state, payload){
+            console.log('payload is ', payload)
+            state.chosenCities = payload
+            console.log('state is ', state.chosenCities)
+        },
         UPDATE_CHOSEN_CITIES(state, payload){
             state.chosenCities.find(item => {
                 if (item.id === payload.id){
@@ -33,6 +38,9 @@ export const store = createStore({
             fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + amount + '&count=50')
                 .then(response => response.json())
                 .then(cities => {
+                    cities.results.forEach((item, index, array) => {
+                        array[index].fullName = item.name + ", " + item.country + ", " + item.admin1
+                    })
                     commit('UPDATE_FOUND_CITIES', cities.results)
                     console.log('result', cities.results)
                 })

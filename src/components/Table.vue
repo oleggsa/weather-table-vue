@@ -1,14 +1,35 @@
 <template>
-  <v-data-table
-      v-if="cities.length"
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="cities"
-      item-value="name"
-      class="elevation-1"
-      @click:row="log()"
+<!--  <v-data-table-->
+<!--      v-if="cities.length"-->
+<!--      v-model:items-per-page="itemsPerPage"-->
+<!--      :headers="headers"-->
+<!--      :items="cities"-->
+<!--      item-value="name"-->
+<!--      class="elevation-1"-->
+<!--      @click:row="log()"-->
+<!--  >-->
+<!--  </v-data-table>-->
+  <el-table
+      :data="this.$store.getters.getChosenCities"
+      :default-sort="{ prop: 'date', order: 'descending' }"
+      style="width: 100%"
   >
-  </v-data-table>
+    <el-table-column prop="name" label="City" sortable width="180"  />
+    <el-table-column prop="country" label="Country" sortable width="180" />
+    <el-table-column prop="admin1" label="Admin" sortable />
+    <el-table-column prop="weather.daily.temperature_2m_min[0]" label="MinTemp" sortable />
+    <el-table-column prop="weather.daily.temperature_2m_max[0]" label="MaxTemp" sortable />
+    <el-table-column label="Operations">
+      <template #default="scope">
+        <el-button
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.row)"
+        >Delete</el-button
+        >
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script>
@@ -25,13 +46,16 @@ export default {
         { title: 'MaxTemp', align: 'end', key: 'weather.daily.temperature_2m_max[0]' },
         { title: '', align: 'end', key: '' },
       ],
-      cities: this.$store.getters.getChosenCities,
-
     }
   },
   methods: {
     log(e){
       console.log('some data', e)
+    },
+    handleDelete(elem){
+      console.log('result is ', this.$store.getters.getChosenCities.filter(item => item.id !== elem.id))
+      this.$store.commit('DELETE_ITEM_FROM_CHOSEN_CITIES', this.$store.getters.getChosenCities.filter(item => item.id !== elem.id))
+
     }
   }
 }
